@@ -3,15 +3,14 @@ const CACHE_NAME = 'static-cache-v2';
 const DATA_CACHE_NAME = 'data-cache-v1';
 const FILES_TO_CACHE = [ '/', '/index.html', '/index.js', '/db.js', '/manifest.webmanifest',"/styles.css" ];
 
-// install
+// installing
 self.addEventListener('install', function(evt) {
 	evt.waitUntil(caches.open(DATA_CACHE_NAME).then((cache) => cache.add('/api/transaction')));
 
-	// pre cache all static assets
+	
 	evt.waitUntil(caches.open(CACHE_NAME).then((cache) => cache.addAll(FILES_TO_CACHE)));
 
-	// tell the browser to activate this service worker immediately once it
-	// has finished installing
+	
 	self.skipWaiting();
 });
 
@@ -33,7 +32,7 @@ self.addEventListener("activate", function(evt) {
   });
 
   self.addEventListener('fetch', function(evt) {
-    // code to handle requests goes here
+    
     if (evt.request.url.includes("/api/transaction")) {
         evt.respondWith(
           caches.open(DATA_CACHE_NAME).then(cache => {
